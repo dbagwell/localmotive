@@ -65,7 +65,12 @@ class MainViewController: NSViewController, StringKeyListViewControllerDelegate,
     // MARK: - Saving
     
     func saveDocument(_ sender: Any?) {
-        self.localization?.save(swiftFileURL: self.fileControlViewController.swiftFileURL())
+        let swiftFileURL = self.fileControlViewController.swiftFileURL()
+        self.localization?.save(swiftFileURL: swiftFileURL)
+        
+        if let localization = self.localization, let swiftFileURL = swiftFileURL {
+            RecentFilesManager.addSwiftFileToRecent(swiftFileURL, for: localization)
+        }
     }
     
     

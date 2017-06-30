@@ -20,21 +20,20 @@ class FileControlViewController: NSViewController {
     
     var localization: Localization? {
         didSet {
-            if let stringsFile = self.localization?.stringsFiles.first {
-                self.pathSelector.url = stringsFile.url.deletingLastPathComponent().deletingLastPathComponent()
-                self.swiftFileNameTextField.stringValue = stringsFile.url.deletingPathExtension().lastPathComponent
+            if let localization = self.localization, let swiftFileURL = RecentFilesManager.swiftFileUrl(for: localization) {
+                self.swiftFileNameTextField.stringValue = swiftFileURL.deletingPathExtension().lastPathComponent
+                self.pathSelector.url = swiftFileURL.deletingLastPathComponent()
+                
+            } else {
+                if let stringsFile = self.localization?.stringsFiles.first {
+                    self.pathSelector.url = stringsFile.url.deletingLastPathComponent().deletingLastPathComponent()
+                    self.swiftFileNameTextField.stringValue = stringsFile.url.deletingPathExtension().lastPathComponent
+                    self.pathSelector.url = URL(string: "file://" + NSHomeDirectory())
+                }
             }
         }
     }
     
-    
-    // MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.pathSelector.url = URL(string: "file://" + NSHomeDirectory())
-    }
     
     // MARK: - Actions
     

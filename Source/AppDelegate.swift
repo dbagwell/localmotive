@@ -31,6 +31,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
+    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+        guard let url = URL(string: "file://" + filename) else { return false }
+        
+        self.open(url)
+        
+        return true
+    }
+    
     
     // MARK: - Methods
     
@@ -50,21 +58,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         openPanel.begin(completionHandler: { result in
             guard result == NSFileHandlingPanelOKButton else { return }
-            
-            let url = openPanel.urls[0]
-            let fileName = url.lastPathComponent
-            let enclosingFolder = url.deletingLastPathComponent()
-            let superEnclosingFolder = enclosingFolder.deletingLastPathComponent()
-            
-            self.openStrings(inDirectory: superEnclosingFolder, withFileName: fileName)
+            self.open(openPanel.urls[0])
         })
     }
     
-    func openStrings(inDirectory url: URL, withFileName fileName: String) {
+    func open(_ url: URL) {
+        let fileName = url.lastPathComponent
+        let enclosingFolder = url.deletingLastPathComponent()
+        let superEnclosingFolder = enclosingFolder.deletingLastPathComponent()
+        
+        self.openStrings(url, inDirectory: superEnclosingFolder, withFileName: fileName)
+    }
+    
+    func openStrings(_ stringsFileURL: URL, inDirectory directoryURL: URL, withFileName fileName: String) {
         var alertMessage: String?
         
         do {
-            self.newWindow(with: try Localization(containingDirectory: url, fileName: fileName))
+            self.newWindow(with: try Localization(containingDirectory: directoryURL, fileName: fileName))
+            RecentFilesManager.addStringsFileToRecent(stringsFileURL)
         } catch Localization.Error.filesNotFound {
             alertMessage = "Could not find any localizable strings files."
         } catch let error as NSError {
