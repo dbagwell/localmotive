@@ -112,6 +112,7 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
         label.drawsBackground = false
         label.stringValue = self.filteredLocalStrings[row].key
         label.delegate = self
+        label.lineBreakMode = .byTruncatingTail
         return label
     }
     

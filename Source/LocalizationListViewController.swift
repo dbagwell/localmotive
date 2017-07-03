@@ -96,6 +96,7 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         label.isBordered = false
         label.drawsBackground = false
         label.stringValue = value
+        label.lineBreakMode = .byTruncatingTail
         
         if tableColumn?.title == "Language" {
             label.isEditable = false

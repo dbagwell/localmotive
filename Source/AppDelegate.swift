@@ -97,7 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.mainWindowControllers[controller.id!] = controller
         
-        // Close any windows that don'e have an id
+        // Close any windows that don't have an id
         for window in NSApp.windows where (window.windowController as? MainWindowController)?.id == nil {
             DispatchQueue.main.async(execute: {
                 window.close()
