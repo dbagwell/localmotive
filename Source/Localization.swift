@@ -161,12 +161,23 @@ class Localization: NSObject {
         
         var swiftFileContents = "import Foundation\n\nclass Localizable {\n\t\n\t// MARK: - String Keys\n\t\n"
         
-        var usedKeys = [String]()
-        
-        for localString in self.localStrings where !usedKeys.contains(localString.key) && localString.key.isValidSwiftIdentifier() {
-            usedKeys.append(localString.key)
+        let groupedLocalStrings = self.localStrings.reduce([String: [LocalString]](), { result, localString in
+            var result = result
+            if result[localString.key] != nil {
+                result[localString.key]?.append(localString)
+            } else {
+                result[localString.key] = [localString]
+            }
             
-            swiftFileContents += "\tstatic var \(localString.key): String { return NSLocalizedString(\"\(localString.key)\", comment: \"\") }\n"
+            return result
+        })
+        
+        for (key, value) in groupedLocalStrings where key.isValidSwiftIdentifier() {
+            if value.contains(where: { $0.string.contains("%@") }) {
+                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\"), args) }\n"
+            } else {
+                swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", comment: \"\") }\n"
+            }
         }
         
         swiftFileContents += "\t\n}\n"
