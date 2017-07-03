@@ -158,8 +158,9 @@ class Localization: NSObject {
         }
         
         guard let url = swiftFileURL else { return }
+        let className = swiftFileURL?.deletingPathExtension().lastPathComponent ?? "Localizable"
         
-        var swiftFileContents = "import Foundation\n\nclass Localizable {\n\t\n\t// MARK: - String Keys\n\t\n"
+        var swiftFileContents = "import Foundation\n\nclass \(className) {\n\t\n\t// MARK: - String Keys\n\t\n"
         
         let groupedLocalStrings = self.localStrings.reduce([String: [LocalString]](), { result, localString in
             var result = result
