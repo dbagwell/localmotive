@@ -70,7 +70,7 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
     }
     
     
-    // MARK: - Methods
+    // MARK: - Updating Keys
     
     func updateFilteredStringKeys() {
         guard let localization = self.localization else { return }
@@ -88,6 +88,15 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
         let selectedRow = self.stringKeyListView.selectedRow
         guard (0..<self.stringKeyListView.numberOfRows).contains(selectedRow) else { return }
         (self.stringKeyListView.view(atColumn: 0, row: selectedRow, makeIfNecessary: false) as? NSTextField)?.becomeFirstResponder()
+    }
+    
+    
+    // MARK: - Deleting
+    
+    func delete(_ sender: Any?) {
+        self.localization?.deleteKey(self.currentStringKey)
+        self.currentStringKey = ""
+        self.updateFilteredStringKeys()
     }
     
     
@@ -120,6 +129,11 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
     
     func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
         let newKey = fieldEditor.string ?? ""
+        
+        guard newKey != "" else {
+            self.delete(nil)
+            return true
+        }
         
         guard newKey == self.currentStringKey || !(self.localization?.containsKey(newKey) ?? false) else {
             let alert = NSAlert()

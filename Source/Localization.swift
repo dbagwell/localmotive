@@ -96,6 +96,8 @@ class Localization: NSObject {
     // MARK: - Updating
     
     func updateKey(_ key: String, to newKey: String) {
+        guard newKey != "" else { return self.deleteKey(key) }
+        
         guard key != newKey else { return }
         
         for stringsFile in self.stringsFiles {
@@ -115,6 +117,19 @@ class Localization: NSObject {
         
         for localString in self.localStrings where localString.key == key && localString.languageCode == languageCode {
             localString.string = string
+        }
+    }
+    
+    
+    // MARK: - Deleting Keys
+    
+    func deleteKey(_ key: String) {
+        for stringsFile in self.stringsFiles {
+            stringsFile.keyedStrings[key] = nil
+        }
+        
+        while let index = self.localStrings.index(where: { $0.key == key }) {
+            self.localStrings.remove(at: index)
         }
     }
     
