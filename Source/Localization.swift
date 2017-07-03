@@ -54,6 +54,8 @@ class Localization: NSObject {
         }
         
         super.init()
+        
+        self.localStrings.sort(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending })
     }
     
     
@@ -173,7 +175,7 @@ class Localization: NSObject {
             return result
         })
         
-        for (key, value) in groupedLocalStrings where key.isValidSwiftIdentifier() {
+        for (key, value) in groupedLocalStrings.sorted(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending }) where key.isValidSwiftIdentifier() {
             if value.contains(where: { $0.string.contains("%@") }) {
                 swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\"), args) }\n"
             } else {
