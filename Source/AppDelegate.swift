@@ -32,7 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
-        guard let url = URL(string: "file://" + filename) else { return false }
+        guard let path = filename.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed), let url = URL(string: "file://" + path) else { return false }
         
         self.open(url)
         
