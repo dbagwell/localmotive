@@ -1,6 +1,6 @@
 # Localmotive
 
-A tool for easy modification and management of localizable strings files.
+A macOS tool for easy modification and management of localizable strings files.
 
 ### Features
 
