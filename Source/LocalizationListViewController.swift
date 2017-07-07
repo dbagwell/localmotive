@@ -8,11 +8,12 @@
 
 import Cocoa
 
-class LocalizationListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate {
+class LocalizationListViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate, NSTextViewDelegate {
     
     // MARK: - Outlets
     
     @IBOutlet var localizationListView: NSTableView!
+    @IBOutlet var commentTextView: NSTextView!
     
     
     // MARK: - Properties
@@ -23,6 +24,22 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         didSet {
             self.checkSearchTerm()
             self.localizationListView.reloadData()
+            
+            if self.currentStringKey != "" {
+                self.comment = self.localization?.stringsFiles[0].keyedComments[self.currentStringKey] ?? ""
+                self.commentTextView.string = self.comment
+                self.commentTextView.isEditable = true
+            } else {
+                self.comment = ""
+                self.commentTextView.string = ""
+                self.commentTextView.isEditable = false
+            }
+        }
+    }
+    
+    var comment = "" {
+        didSet {
+            self.localization?.updateComment(self.comment, forKey: self.currentStringKey)
         }
     }
     
@@ -48,6 +65,8 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         self.localizationListView.dataSource = self
         
         self.localizationListView.doubleAction = #selector(self.editSelectedRow)
+        
+        self.commentTextView.delegate = self
     }
     
     
@@ -118,6 +137,13 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         self.localization?.updateString(string, withKey: self.currentStringKey, forLanguageCode: languageCode)
         
         return true
+    }
+    
+    
+    // MARK: - NSTextDelegate Protocol
+    
+    func textDidChange(_ notification: Notification) {
+        self.comment = self.commentTextView.string ?? ""
     }
     
 }

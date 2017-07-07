@@ -49,7 +49,7 @@ class Localization: NSObject {
         
         for stringsFile in self.stringsFiles {
             for (key, string) in stringsFile.keyedStrings {
-                self.localStrings.append(LocalString(key: key, languageCode: stringsFile.languageCode, string: string))
+                self.localStrings.append(LocalString(key: key, languageCode: stringsFile.languageCode, string: string, comment: stringsFile.keyedComments[key]))
             }
         }
         
@@ -136,6 +136,34 @@ class Localization: NSObject {
     }
     
     
+    // MARK: - Updating Comments
+    
+    func updateComment(_ comment: String, forKey key: String) {
+        guard comment !=  "" else { return self.deleteComment(forKey: key) }
+        
+        for stringsFile in self.stringsFiles {
+            stringsFile.keyedComments[key] = comment
+        }
+        
+        for localString in self.localStrings where localString.key == key {
+            localString.comment = comment
+        }
+    }
+    
+    
+    // MARK: - Delete Comments
+    
+    func deleteComment(forKey key: String) {
+        for stringsFile in self.stringsFiles {
+            stringsFile.keyedComments[key] = nil
+        }
+        
+        for localString in self.localStrings where localString.key == key {
+            localString.comment = nil
+        }
+    }
+    
+    
     // MARK: - Adding a language
     
     func addLanguage(withLanguageCode languageCode: String) throws {
@@ -176,10 +204,12 @@ class Localization: NSObject {
         })
         
         for (key, value) in groupedLocalStrings.sorted(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending }) where key.isValidSwiftIdentifier() {
+            let comment = value.first?.comment ?? ""
+            
             if value.contains(where: { $0.string.contains("%@") }) {
-                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\"), args) }\n"
+                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\(comment)\"), args) }\n"
             } else {
-                swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", comment: \"\") }\n"
+                swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", comment: \"\(comment)\") }\n"
             }
         }
         

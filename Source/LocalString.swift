@@ -15,14 +15,16 @@ class LocalString: NSObject {
     var key: String
     var languageCode: String
     var string: String
+    var comment: String?
     
     
     // MARK: - Init
     
-    init(key: String, languageCode: String, string: String) {
+    init(key: String, languageCode: String, string: String, comment: String? = nil) {
         self.key = key
         self.languageCode = languageCode
         self.string = string
+        self.comment = comment
     }
     
 }

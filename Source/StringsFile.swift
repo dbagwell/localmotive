@@ -19,7 +19,9 @@ class StringsFile: NSObject {
     
     // MARK: - Constants
     
-    private static let linePattern = "\\\"(.*)\\\" *= *\\\"(.*)\\\";"
+    private static let keyAndStringPattern = "\\\"(.*)\\\" *= *\\\"(.*)\\\";"
+    private static let commentPattern = "\\/\\*\\s*(.*\\S)\\s*\\*\\/"
+    private static let pattern = "(?:" + commentPattern + "\\s*" + ")?" + keyAndStringPattern
     
     
     // MARK: - Properties
@@ -33,6 +35,7 @@ class StringsFile: NSObject {
     private(set) var languageCode: String
     
     var keyedStrings = [String: String]()
+    var keyedComments = [String: String]()
     
     
     // MARK: - Init
@@ -52,11 +55,16 @@ class StringsFile: NSObject {
         } else {
             let contents = try String(contentsOfFile: url.path, encoding: .utf8)
             let nsContents = contents as NSString
-            let regex = try! NSRegularExpression(pattern: StringsFile.linePattern, options: [])
-            let lineMatches = regex.matches(in: contents, options: [], range: NSRange(location: 0, length: contents.characters.count))
+            let regex = try! NSRegularExpression(pattern: StringsFile.pattern, options: [])
+            let matches = regex.matches(in: contents, options: [], range: NSRange(location: 0, length: contents.characters.count))
             
-            for match in lineMatches {
-                self.keyedStrings[nsContents.substring(with: match.rangeAt(1))] = nsContents.substring(with: match.rangeAt(2))
+            for match in matches {
+                let key = nsContents.substring(with: match.rangeAt(match.numberOfRanges-2))
+                self.keyedStrings[key] = nsContents.substring(with: match.rangeAt(match.numberOfRanges-1))
+                
+                if match.rangeAt(match.numberOfRanges-3).length > 0 {
+                    self.keyedComments[key] = nsContents.substring(with: match.rangeAt(match.numberOfRanges-3))
+                }
             }
         }
         
@@ -69,8 +77,11 @@ class StringsFile: NSObject {
     func save() throws {
         var lines = [String]()
         
-        for (key, value) in self.keyedStrings.sorted(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending }) {
         for (key, value) in self.keyedStrings.sorted(by: { $0.key.strictCaseInsensitiveCompare($1.key) == .orderedAscending }) {
+            if let comment = self.keyedComments[key] {
+                lines.append("/* \(comment) */")
+            }
+            
             lines.append("\"\(key)\" = \"\(value)\";")
         }
         

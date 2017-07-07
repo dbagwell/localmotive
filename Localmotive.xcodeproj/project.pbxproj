@@ -20,6 +20,7 @@
 		D34AA43C1F066D17004655D4 /* RecentFilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34AA43B1F066D17004655D4 /* RecentFilesManager.swift */; };
 		D34AA43E1F0A1B3E004655D4 /* OpenRecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34AA43D1F0A1B3E004655D4 /* OpenRecentViewController.swift */; };
 		D34AA4401F0A1B53004655D4 /* LocalString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34AA43F1F0A1B53004655D4 /* LocalString.swift */; };
+		D34AA4521F1022A1004655D4 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34AA4501F1022A1004655D4 /* String.swift */; };
 		D356BDEF1ED8DE0F00C53CD2 /* FileControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D356BDEE1ED8DE0F00C53CD2 /* FileControlViewController.swift */; };
 		D3571CE61E876BDA00926F09 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3571CE51E876BDA00926F09 /* MainViewController.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		D34AA43B1F066D17004655D4 /* RecentFilesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecentFilesManager.swift; path = Source/RecentFilesManager.swift; sourceTree = "<group>"; };
 		D34AA43D1F0A1B3E004655D4 /* OpenRecentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenRecentViewController.swift; path = Source/OpenRecentViewController.swift; sourceTree = "<group>"; };
 		D34AA43F1F0A1B53004655D4 /* LocalString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalString.swift; path = Source/LocalString.swift; sourceTree = "<group>"; };
+		D34AA4501F1022A1004655D4 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Source/String.swift; sourceTree = "<group>"; };
 		D356BDEE1ED8DE0F00C53CD2 /* FileControlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileControlViewController.swift; path = Source/FileControlViewController.swift; sourceTree = "<group>"; };
 		D3571CE01E876BDA00926F09 /* Localmotive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Localmotive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3571CE51E876BDA00926F09 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Source/MainViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				D34AA43B1F066D17004655D4 /* RecentFilesManager.swift */,
 				D34AA43D1F0A1B3E004655D4 /* OpenRecentViewController.swift */,
 				D34AA43F1F0A1B53004655D4 /* LocalString.swift */,
+				D34AA4501F1022A1004655D4 /* String.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 				D315F3B01E88C5940048A2EF /* StringKeyListViewController.swift in Sources */,
 				D33AAA141E970A490090DB61 /* Localization.swift in Sources */,
 				D34AA4401F0A1B53004655D4 /* LocalString.swift in Sources */,
+				D34AA4521F1022A1004655D4 /* String.swift in Sources */,
 				D34AA43E1F0A1B3E004655D4 /* OpenRecentViewController.swift in Sources */,
 				D33AAA181E970CBD0090DB61 /* LocalizationListViewController.swift in Sources */,
 				D356BDEF1ED8DE0F00C53CD2 /* FileControlViewController.swift in Sources */,
