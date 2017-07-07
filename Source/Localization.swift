@@ -24,7 +24,7 @@ class Localization: NSObject {
     var stringsFiles = [StringsFile]()
     var localStrings = [LocalString]() {
         didSet {
-            self.localStrings.sort(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending })
+            self.localStrings.sort(by: { $0.key.strictCaseInsensitiveCompare($1.key) == .orderedAscending })
         }
     }
     

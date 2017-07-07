@@ -70,6 +70,7 @@ class StringsFile: NSObject {
         var lines = [String]()
         
         for (key, value) in self.keyedStrings.sorted(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending }) {
+        for (key, value) in self.keyedStrings.sorted(by: { $0.key.strictCaseInsensitiveCompare($1.key) == .orderedAscending }) {
             lines.append("\"\(key)\" = \"\(value)\";")
         }
         
