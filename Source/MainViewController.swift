@@ -87,8 +87,8 @@ class MainViewController: NSViewController, StringKeyListViewControllerDelegate,
     
     @IBAction func newKeyButtonPressed(_ sender: Any?) {
         let key = self.localization?.addNewKey() ?? ""
-        self.searchFieldViewController.setSearchString(to: key)
-        self.localizationListViewController.currentStringKey = key
+        self.searchFieldViewController.setSearchString(to: "")
+        self.stringKeyListViewController.currentStringKey = key
     }
     
     @IBAction func newLanguageButtonPressed(_ sender: Any) {

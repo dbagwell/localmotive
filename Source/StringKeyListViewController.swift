@@ -47,6 +47,11 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
     
     var currentStringKey = "" {
         didSet {
+            if let index = self.filteredLocalStrings.index(where: { $0.key == self.currentStringKey }) {
+                self.stringKeyListView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+                self.stringKeyListView.scrollRowToVisible(index)
+            }
+            
             self.delegate?.stringKeyListViewControllerDidSelectStringKey(self.currentStringKey)
         }
     }

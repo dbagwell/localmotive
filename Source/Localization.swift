@@ -39,7 +39,7 @@ class Localization: NSObject {
         return date
     }
     
-    var lastReadDate = Date()
+    var lastSyncedDate = Date()
     
     
     // MARK: - Init
@@ -77,7 +77,7 @@ class Localization: NSObject {
             }
         }
         
-        self.lastReadDate = Date()
+        self.lastSyncedDate = Date()
     }
     
     
@@ -205,7 +205,7 @@ class Localization: NSObject {
     // MARK: - Saving
     
     func save(swiftFileURL: URL? = nil) {
-        self.lastSavedDate = Date()
+        self.lastSyncedDate = Date()
         
         for stringsFile in self.stringsFiles {
             try? stringsFile.save()

@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidBecomeActive(_ notification: Notification) {
         for (_, windowController) in self.mainWindowControllers {
-            if let localization = windowController.mainViewController?.localization, localization.lastModifiedDate > localization.lastReadDate {
+            if let localization = windowController.mainViewController?.localization, localization.lastModifiedDate > localization.lastSyncedDate {
                 windowController.mainViewController?.update()
             }
         }
