@@ -37,6 +37,15 @@ class StringsFile: NSObject {
     var keyedStrings = [String: String]()
     var keyedComments = [String: String]()
     
+    var lastModifiedDate: Date {
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: self.url.path)
+            return attributes[.modificationDate] as? Date ?? Date()
+        } catch {
+            return Date()
+        }
+    }
+    
     
     // MARK: - Init
     

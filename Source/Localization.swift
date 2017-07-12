@@ -28,6 +28,19 @@ class Localization: NSObject {
         }
     }
     
+    var lastModifiedDate: Date {
+        var date = Date.distantPast
+        
+        for file in self.stringsFiles {
+            let fileDate = file.lastModifiedDate
+            date = fileDate > date ? fileDate : date
+        }
+        
+        return date
+    }
+    
+    var lastReadDate = Date()
+    
     
     // MARK: - Init
     
@@ -35,7 +48,18 @@ class Localization: NSObject {
         self.containingDirectory = containingDirectory
         self.fileName = fileName
         
+        super.init()
+        
+        try self.update()
+    }
+    
+    
+    // MARK: - Update
+    
+    func update() throws {
         let urls = try FileManager.default.contentsOfDirectory(at: containingDirectory, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants)
+        self.stringsFiles = [StringsFile]()
+        self.localStrings = [LocalString]()
         
         for url in urls where url.pathExtension == "lproj" {
             if let localizedStringsURL = url.appendingPathComponentIfExists(fileName) {
@@ -53,9 +77,7 @@ class Localization: NSObject {
             }
         }
         
-        super.init()
-        
-        self.localStrings.sort(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending })
+        self.lastReadDate = Date()
     }
     
     
@@ -183,6 +205,8 @@ class Localization: NSObject {
     // MARK: - Saving
     
     func save(swiftFileURL: URL? = nil) {
+        self.lastSavedDate = Date()
+        
         for stringsFile in self.stringsFiles {
             try? stringsFile.save()
         }

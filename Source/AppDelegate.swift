@@ -22,13 +22,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // MARK: - NSApplicationDelegate Protocol
     
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-        
-    }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    func applicationDidBecomeActive(_ notification: Notification) {
+        for (_, windowController) in self.mainWindowControllers {
+            if let localization = windowController.mainViewController?.localization, localization.lastModifiedDate > localization.lastReadDate {
+                windowController.mainViewController?.update()
+            }
+        }
     }
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {

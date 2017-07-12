@@ -74,7 +74,16 @@ class MainViewController: NSViewController, StringKeyListViewControllerDelegate,
     }
     
     
-    // MARK: - New Key
+    // MARK: - Updating
+    
+    func update() {
+        try? self.localization?.update()
+        self.stringKeyListViewController.updateFilteredStringKeys()
+        self.localizationListViewController.currentStringKey = self.stringKeyListViewController.currentStringKey
+    }
+    
+    
+    // MARK: - Actions
     
     @IBAction func newKeyButtonPressed(_ sender: Any?) {
         let key = self.localization?.addNewKey() ?? ""
