@@ -207,7 +207,7 @@ class Localization: NSObject {
             let comment = value.first?.comment ?? ""
             
             if value.contains(where: { $0.string.contains("%@") }) {
-                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\(comment)\"), args) }\n"
+                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\(comment)\"), arguments: args) }\n"
             } else {
                 swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", comment: \"\(comment)\") }\n"
             }
