@@ -214,7 +214,20 @@ class Localization: NSObject {
         guard let url = swiftFileURL else { return }
         let className = swiftFileURL?.deletingPathExtension().lastPathComponent ?? "Localizable"
         
-        var swiftFileContents = "import Foundation\n\nclass \(className) {\n\t\n\t// MARK: - String Keys\n\t\n"
+        var swiftFileContents = """
+        import Foundation
+        
+        class \(className) {
+        \t
+            // MARK: - Static Properties
+        \t
+            static let bundle: Bundle = Bundle(for: \(className).self)
+        \t
+        \t
+            // MARK: - String Keys
+        \t
+        
+        """
         
         let groupedLocalStrings = self.localStrings.reduce([String: [LocalString]](), { result, localString in
             var result = result
@@ -231,9 +244,9 @@ class Localization: NSObject {
             let comment = value.first?.comment ?? ""
             
             if value.contains(where: { $0.string.contains("%@") }) {
-                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", comment: \"\(comment)\"), arguments: args) }\n"
+                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\"), arguments: args) }\n"
             } else {
-                swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", comment: \"\(comment)\") }\n"
+                swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\") }\n"
             }
         }
         
