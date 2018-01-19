@@ -242,7 +242,16 @@ class Localization: NSObject {
         
         for (key, value) in groupedLocalStrings.sorted(by: { $0.key.localizedCaseInsensitiveCompare($1.key) == .orderedAscending }) where key.isValidSwiftIdentifier() {
             let comment = value.first?.comment ?? ""
-            
+
+            if !comment.isEmpty {
+                swiftFileContents += "\t/// \(comment)\n\t///\n"
+            }
+
+            if let baseValue = value.first(where: { $0.languageCode == "Base" }) {
+                let baseString = baseValue.string.replacingOccurrences(of: "\n", with: " ")
+                swiftFileContents += "\t/// Base Value: \"\(baseString)\"\n"
+            }
+
             if value.contains(where: { $0.string.contains("%@") }) {
                 swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\"), arguments: args) }\n"
             } else {
