@@ -265,6 +265,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="WRV-NI-Exz"/>
+                                        <menuItem title="Select All" keyEquivalent="a" id="0bG-zx-Fn7">
+                                            <connections>
+                                                <action selector="selectAll:" target="Ady-hI-5gd" id="caX-8m-jVg"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="p4Z-4s-SJk"/>
                                         <menuItem title="Cut" keyEquivalent="x" id="uRl-iY-unG">
                                             <connections>
                                                 <action selector="cut:" target="Ady-hI-5gd" id="YJe-68-I9s"/>
