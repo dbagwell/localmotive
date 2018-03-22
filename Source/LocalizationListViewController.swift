@@ -69,6 +69,12 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         self.commentTextView.delegate = self
     }
     
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        
+        self.updateRowHeights()
+    }
+    
     
     // MARK: - Methods
     
@@ -99,11 +105,26 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         (self.localizationListView.view(atColumn: 1, row: selectedRow, makeIfNecessary: false) as? NSTextField)?.becomeFirstResponder()
     }
     
+    func updateRowHeights() {
+        let allIndex = IndexSet(integersIn:0..<self.localizationListView.numberOfRows)
+        self.localizationListView.noteHeightOfRows(withIndexesChanged: allIndex)
+    }
+    
     
     // MARK: - NSTableViewDataSource Protocol
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return self.currentLocalizationContainsSearchTerm ? self.localization?.stringsFiles.count ?? 0 : 0
+    }
+    
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        guard let stringsFile = self.localization?.stringsFiles[row] else { return 0 }
+
+        let label = NSTextField()
+        label.stringValue = stringsFile.keyedStrings[self.currentStringKey] ?? ""
+        label.lineBreakMode = .byWordWrapping
+
+        return label.sizeThatFits(NSSize(width: tableView.tableColumns[1].width, height: CGFloat.greatestFiniteMagnitude)).height
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -115,7 +136,7 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         label.isBordered = false
         label.drawsBackground = false
         label.stringValue = value
-        label.lineBreakMode = .byTruncatingTail
+        label.lineBreakMode = .byWordWrapping
         
         if tableColumn?.title == "Language" {
             label.isEditable = false
@@ -133,8 +154,12 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         let selectedRow = self.localizationListView.selectedRow
         guard (0..<(self.localization?.stringsFiles.count ?? 0)).contains(selectedRow) else { return true }
         let languageCode = self.localization?.stringsFiles[selectedRow].languageCode ?? ""
-        let string = fieldEditor.string ?? ""
+        var string = fieldEditor.string ?? ""
+        string = string.replacingOccurrences(of: "\n", with: "\\n")
+        string = string.replacingOccurrences(of: "\t", with: "\\t")
+        fieldEditor.string = string
         self.localization?.updateString(string, withKey: self.currentStringKey, forLanguageCode: languageCode)
+        self.updateRowHeights()
         
         return true
     }

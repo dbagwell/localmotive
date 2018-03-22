@@ -69,7 +69,10 @@ class StringsFile: NSObject {
             
             for match in matches {
                 let key = nsContents.substring(with: match.rangeAt(match.numberOfRanges-2))
-                self.keyedStrings[key] = nsContents.substring(with: match.rangeAt(match.numberOfRanges-1))
+                var string = nsContents.substring(with: match.rangeAt(match.numberOfRanges-1))
+                string = string.replacingOccurrences(of: "\n", with: "\\n")
+                string = string.replacingOccurrences(of: "\t", with: "\\t")
+                self.keyedStrings[key] = string
                 
                 if match.rangeAt(match.numberOfRanges-3).length > 0 {
                     self.keyedComments[key] = nsContents.substring(with: match.rangeAt(match.numberOfRanges-3))
@@ -91,6 +94,8 @@ class StringsFile: NSObject {
                 lines.append("/* \(comment) */")
             }
             
+            var value = value.replacingOccurrences(of: "\n", with: "\\n")
+            value = value.replacingOccurrences(of: "\t", with: "\\t")
             lines.append("\"\(key)\" = \"\(value)\";")
         }
         

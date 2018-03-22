@@ -272,7 +272,7 @@ class Localization: NSObject {
 fileprivate extension String {
     
     func isValidSwiftIdentifier() -> Bool {
-        guard String(describing: self.characters.first).rangeOfCharacter(from: CharacterSet.decimalDigits) == nil else { return false }
+        guard String(describing: self.first).rangeOfCharacter(from: CharacterSet.decimalDigits) == nil else { return false }
         
         guard self.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) == nil else { return false }
         
