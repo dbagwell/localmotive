@@ -127,6 +127,8 @@ class Localization: NSObject {
         for stringsFile in self.stringsFiles {
             stringsFile.keyedStrings[newKey] = stringsFile.keyedStrings[key]
             stringsFile.keyedStrings[key] = nil
+            stringsFile.keyedComments[newKey] = stringsFile.keyedComments[key]
+            stringsFile.keyedComments[key] = nil
         }
         
         for localString in self.localStrings where localString.key == key {
