@@ -71,11 +71,15 @@ class Localization: NSObject {
             throw Localization.Error.filesNotFound
         }
         
+        var localStrings = self.localStrings
+        
         for stringsFile in self.stringsFiles {
             for (key, string) in stringsFile.keyedStrings {
-                self.localStrings.append(LocalString(key: key, languageCode: stringsFile.languageCode, string: string, comment: stringsFile.keyedComments[key]))
+                localStrings.append(LocalString(key: key, languageCode: stringsFile.languageCode, string: string, comment: stringsFile.keyedComments[key]))
             }
         }
+        
+        self.localStrings = localStrings
         
         self.lastSyncedDate = Date()
     }
