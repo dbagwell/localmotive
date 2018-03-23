@@ -90,6 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func newWindow(with localization: Localization) {
         guard let controller = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else { return }
+        controller.window?.setFrameAutosaveName("MainWindow")
         controller.id = UUID()
         controller.mainViewController?.localization = localization
         controller.showWindow(self)
