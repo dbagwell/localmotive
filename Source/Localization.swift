@@ -223,7 +223,7 @@ class Localization: NSObject {
         var swiftFileContents = """
         import Foundation
         
-        class \(className) {
+        public class \(className) {
         \t
             // MARK: - Static Properties
         \t
@@ -259,9 +259,9 @@ class Localization: NSObject {
             }
 
             if value.contains(where: { $0.string.contains("%@") }) {
-                swiftFileContents += "\tclass func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\"), arguments: args) }\n"
+                swiftFileContents += "\tpublic class func \(key)(_ args: String...) -> String { return String(format: NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\"), arguments: args) }\n"
             } else {
-                swiftFileContents += "\tstatic var \(key): String { return NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\") }\n"
+                swiftFileContents += "\tpublic static var \(key): String { return NSLocalizedString(\"\(key)\", bundle: self.bundle, comment: \"\(comment)\") }\n"
             }
         }
         
