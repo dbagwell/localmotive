@@ -65,17 +65,17 @@ class StringsFile: NSObject {
             let contents = try String(contentsOfFile: url.path, encoding: .utf8)
             let nsContents = contents as NSString
             let regex = try! NSRegularExpression(pattern: StringsFile.pattern, options: [])
-            let matches = regex.matches(in: contents, options: [], range: NSRange(location: 0, length: contents.characters.count))
+            let matches = regex.matches(in: contents, options: [], range: NSRange(location: 0, length: contents.count))
             
             for match in matches {
-                let key = nsContents.substring(with: match.rangeAt(match.numberOfRanges-2))
-                var string = nsContents.substring(with: match.rangeAt(match.numberOfRanges-1))
+                let key = nsContents.substring(with: match.range(at: match.numberOfRanges-2))
+                var string = nsContents.substring(with: match.range(at: match.numberOfRanges-1))
                 string = string.replacingOccurrences(of: "\n", with: "\\n")
                 string = string.replacingOccurrences(of: "\t", with: "\\t")
                 self.keyedStrings[key] = string
                 
-                if match.rangeAt(match.numberOfRanges-3).length > 0 {
-                    self.keyedComments[key] = nsContents.substring(with: match.rangeAt(match.numberOfRanges-3))
+                if match.range(at: match.numberOfRanges-3).length > 0 {
+                    self.keyedComments[key] = nsContents.substring(with: match.range(at: match.numberOfRanges-3))
                 }
             }
         }

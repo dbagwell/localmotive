@@ -44,7 +44,7 @@ class SearchFieldViewController: NSViewController, NSSearchFieldDelegate {
     
     // MARK: - NSSearchFieldDelegate Procotol
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         self.delegate?.searchFieldViewControllerDidChangeSearchText(to: self.searchField.stringValue)
     }
     

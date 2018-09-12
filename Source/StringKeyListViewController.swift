@@ -89,7 +89,7 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
         self.filteredLocalStrings = filteredLocalStrings
     }
     
-    func editSelectedRow() {
+    @objc func editSelectedRow() {
         let selectedRow = self.stringKeyListView.selectedRow
         guard (0..<self.stringKeyListView.numberOfRows).contains(selectedRow) else { return }
         (self.stringKeyListView.view(atColumn: 0, row: selectedRow, makeIfNecessary: false) as? NSTextField)?.becomeFirstResponder()
@@ -134,7 +134,7 @@ class StringKeyListViewController: NSViewController, NSTableViewDataSource, NSTa
     // MARK: - NSControlTextEditingDelegate Protocol
     
     func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        let newKey = fieldEditor.string ?? ""
+        let newKey = fieldEditor.string
         
         guard newKey != "" else {
             self.delete(nil)

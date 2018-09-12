@@ -103,7 +103,7 @@ class MainViewController: NSViewController, StringKeyListViewControllerDelegate,
         
         let result = alert.runModal()
         
-        if result == NSAlertFirstButtonReturn {
+        if result == NSApplication.ModalResponse.alertFirstButtonReturn {
             do {
                 try self.localization?.addLanguage(withLanguageCode: textField.stringValue)
             } catch StringsFile.CreationError.fileExists {

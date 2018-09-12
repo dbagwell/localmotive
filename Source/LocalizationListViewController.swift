@@ -99,7 +99,7 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         self.currentLocalizationContainsSearchTerm = false
     }
     
-    func editSelectedRow() {
+    @objc func editSelectedRow() {
         let selectedRow = self.localizationListView.selectedRow
         guard (0..<self.localizationListView.numberOfRows).contains(selectedRow) else { return }
         (self.localizationListView.view(atColumn: 1, row: selectedRow, makeIfNecessary: false) as? NSTextField)?.becomeFirstResponder()
@@ -154,7 +154,7 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
         let selectedRow = self.localizationListView.selectedRow
         guard (0..<(self.localization?.stringsFiles.count ?? 0)).contains(selectedRow) else { return true }
         let languageCode = self.localization?.stringsFiles[selectedRow].languageCode ?? ""
-        var string = fieldEditor.string ?? ""
+        var string = fieldEditor.string
         string = string.replacingOccurrences(of: "\n", with: "\\n")
         string = string.replacingOccurrences(of: "\t", with: "\\t")
         fieldEditor.string = string
@@ -168,7 +168,7 @@ class LocalizationListViewController: NSViewController, NSTableViewDataSource, N
     // MARK: - NSTextDelegate Protocol
     
     func textDidChange(_ notification: Notification) {
-        self.comment = self.commentTextView.string ?? ""
+        self.comment = self.commentTextView.string
     }
     
 }
