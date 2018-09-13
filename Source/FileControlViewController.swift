@@ -38,10 +38,10 @@ class FileControlViewController: NSViewController {
     // MARK: - Actions
     
     @IBAction func generateSwiftFileCheckboxClicked(_ sender: NSButton) {
-        if sender.state == 0 {
+        if sender.state.rawValue == 0 {
             self.pathSelector.isEnabled = false
             self.swiftFileNameTextField.isEnabled = false
-        } else if sender.state == 1 {
+        } else if sender.state.rawValue == 1 {
             self.pathSelector.isEnabled = true
             self.swiftFileNameTextField.isEnabled = true
         }

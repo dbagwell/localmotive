@@ -56,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         openPanel.allowedFileTypes = ["strings"]
         
         openPanel.begin(completionHandler: { result in
-            guard result == NSFileHandlingPanelOKButton else { return }
+            guard result.rawValue == NSFileHandlingPanelOKButton else { return }
             self.open(openPanel.urls[0])
         })
     }

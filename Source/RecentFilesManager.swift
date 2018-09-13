@@ -16,11 +16,11 @@ class RecentFilesManager: NSObject {
     // MARK: - Recent Strings Files
     
     class func recentStringsFilesURLs() -> [URL] {
-        return NSDocumentController.shared().recentDocumentURLs
+        return NSDocumentController.shared.recentDocumentURLs
     }
     
     class func addStringsFileToRecent(_ url: URL) {
-        NSDocumentController.shared().noteNewRecentDocumentURL(url)
+        NSDocumentController.shared.noteNewRecentDocumentURL(url)
     }
     
     

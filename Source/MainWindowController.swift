@@ -37,7 +37,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     
     // MARK: - NSWindowDelegate Protocol
     
-    func windowShouldClose(_ sender: Any) -> Bool {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
         // WARN: Check if saving needed
         
         NSAppDelegate.remove(self)
